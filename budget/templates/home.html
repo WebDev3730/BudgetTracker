@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<head>
+    {% if user.is_authenticated %}
+    <title>Personal Budget Tracker</title>
+</head>
+<body>
+    <br/><br/><br/>
+    <div class="col-md-6  offset-md-3 text-center">
+      <h1>Budget Summary</h1>
+      <br/>
+
+      
+        <div class="row">
+          <div class="col">
+            <p><strong>Total Income:</strong> ${{ total_income }}</p>
+          </div>
+          <div class="col">
+            <p><strong>Total Expenses:</strong> ${{ total_expenses }}</p>
+          </div>
+          <div class="col">
+            <p><strong>Balance:</strong> ${{ balance }}</p>
+          </div>
+        </div>
+      
+    
+      
+      
+
+      <h2>Recent Transactions</h2>
+      <ul>
+        <h2>Filter Transactions</h2>
+<form method="get">
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Apply Filter</button>
+</form>
+          <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Expense</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Transaction</th>
+                  <th scope="col">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for transaction in transactions %}
+                <tr>
+                  <td><a href="{% url 'edit_transaction' transaction.id %}"><button type="button" class="btn">{{ transaction.name }}</button></a></td>
+                  <td>${{ transaction.amount }}</td>
+                  <td>{{ transaction.description }}</td>
+                  <td>{{ transaction.transaction_type }}</td>
+                  <td>{{ transaction.category }}</td>
+                  <td><a href="{% url 'delete_transaction' transaction.id %}"><button type="button" class="btn btn-danger">Delete</button></a></td>
+                </tr>
+              </tbody>
+              {% endfor %}
+            </table>
+        
+           
+      </ul>
+     
+
+    
+
+        
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+
+    <a href="{% url 'add_transaction' %}"><button type="button" class="btn btn-primary">Add a new transaction</button></a>
+  </div> 
+</body>
+
+
+
+{% endblock %}

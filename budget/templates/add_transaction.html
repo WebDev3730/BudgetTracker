@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-md-6 offset-md-3 text-center">
+    <h1>Add a New Transaction</h1>
+<br/>
+    <div class="col-md-6 offset-md-3 text-center">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+        <br/>
+        <a href="{% url 'home' %}"><button type="submit" class="btn btn-secondary">Back to Homepage</button></a>
+    </div>
+</div>
+{% endblock %}

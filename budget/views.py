@@ -12,13 +12,21 @@ def home(request):
         total_income = transactions.filter(transaction_type='income').aggregate(total=Sum('amount'))['total'] or 0
         total_expenses = transactions.filter(transaction_type='expense').aggregate(total=Sum('amount'))['total'] or 0
         balance = total_income - total_expenses
-        form = TransactionFilterForm(request.GET or None)
 
+    if 'clear_filters' in request.GET:
+        form = TransactionFilterForm()  # Create a blank form
+    
+
+    else:    
+        form = TransactionFilterForm(request.GET or None)
         if form.is_valid():
+            name = form.cleaned_data.get('name')
             start_date = form.cleaned_data.get('start_date')
             end_date = form.cleaned_data.get('end_date')
             category = form.cleaned_data.get('category')
             transaction_type = form.cleaned_data.get('transaction_type')
+            amount = form.cleaned_data.get('amount')
+            
 
             if start_date:
                 transactions = transactions.filter(date__gte=start_date)
@@ -28,10 +36,12 @@ def home(request):
                 transactions = transactions.filter(category=category)
             if transaction_type:
                 transactions = transactions.filter(transaction_type=transaction_type)
-
-
-    else:
-        return redirect('login')
+            if name:
+                transactions = transactions.filter(name=name)
+            if amount:
+                transactions = transactions.filter(amount=amount)
+            
+        
     
 
     return render(request, 'home.html', {

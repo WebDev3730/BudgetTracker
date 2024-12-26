@@ -69,13 +69,18 @@ class DeleteTransactionForm(forms.ModelForm):
         
 
 class TransactionFilterForm(forms.ModelForm):
+    name = forms.CharField(required=False)
     start_date = forms.DateField(required=False)
     end_date = forms.DateField(required=False)
+    amount = forms.DecimalField(required=False, max_digits=10, decimal_places=2)
+    
     category = forms.ChoiceField(
-        choices= Transaction.category_types
+        required=False,
+        choices= [('', 'All Categories')] + Transaction.category_types,
     )
     transaction_type = forms.ChoiceField(
-        choices= Transaction.Transaction_Types
+        required=False,
+        choices= [('', 'All Types'), ('income', 'Income'), ('expense', 'Expense')],
     )
     
     class Meta:

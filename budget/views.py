@@ -7,7 +7,10 @@ from django.contrib import messages
 # Create your views here.
 
 def home(request):
-    if request.user.is_authenticated:
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    else:
         transactions = Transaction.objects.filter(user=request.user)
         total_income = transactions.filter(transaction_type='income').aggregate(total=Sum('amount'))['total'] or 0
         total_expenses = transactions.filter(transaction_type='expense').aggregate(total=Sum('amount'))['total'] or 0
@@ -52,6 +55,7 @@ def home(request):
         'form': form,
     })
 
+
 def AddTransaction(request):
     if request.method == 'POST':
         form = TransactionForm(request.POST)
@@ -79,6 +83,7 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Account Successfully Created')
             return redirect('login') 
         else: 
             messages.success(request, 'There Was An error, Please Try Again')

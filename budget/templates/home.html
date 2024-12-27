@@ -37,17 +37,17 @@
                 <tr class="table-active">
                   <th scope='col'>{{ form.name }}</th>
                   <th scope='col'>{{ form.amount }}</th>
-                  <th scope='col'>{{ form.description }}</th>
                   <th scope='col'>{{ form.category }}</th>
                   <th scope='col'>{{ form.transaction_type }}</th>
                   <th scope='col'><button type="submit" class="btn btn-primary">Apply Filter</button></th>
+                  <th scope='col'><a href="{% url 'home' %}?clear_filters=1" class="btn btn-secondary">Clear Filter</a></th>
                 </tr>
                 <tr>
                   <th scope="col">Expense</th>
-                  <th scope="col">Amount</th>
-                  <th scope="col">Description</th>
+                  <th scope="col">Amount</th>                 
                   <th scope="col">Category</th>
                   <th scope="col">Transaction</th>
+                  <th scope="col">Description</th>
                   <th scope="col">Delete</th>
                 </tr>
                 
@@ -57,9 +57,9 @@
                 <tr>
                   <td><a href="{% url 'edit_transaction' transaction.id %}"><button type="button" class="btn">{{ transaction.name }}</button></a></td>
                   <td>${{ transaction.amount }}</td>
-                  <td>{{ transaction.description }}</td>
-                  <td>{{ transaction.transaction_type }}</td>
                   <td>{{ transaction.category }}</td>
+                  <td>{{ transaction.transaction_type }}</td>
+                  <td>{{ transaction.description }}</td>
                   <td><a href="{% url 'delete_transaction' transaction.id %}"><button type="button" class="btn btn-danger">Delete</button></a></td>
                 </tr>
               </tbody>

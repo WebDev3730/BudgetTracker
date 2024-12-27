@@ -4,6 +4,7 @@ from .models import Transaction
 from django.contrib.auth import login, logout, authenticate
 from .forms import TransactionForm, RegistrationForm, EditTransactionForm, TransactionFilterForm
 from django.contrib import messages
+from django.contrib.auth import views as auth_views
 # Create your views here.
 
 def home(request):
